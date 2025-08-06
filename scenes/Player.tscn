@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsbwhv2vfuonb"]
+
+[ext_resource type="Script" uid="uid://stikko13c0qe" path="res://scripts/player.gd" id="1_p0vlq"]
+[ext_resource type="SpriteFrames" uid="uid://do3k5xk6v2y8e" path="res://assets/ship1.tres" id="2_v6fml"]
+[ext_resource type="Script" uid="uid://dq1r5ceherik2" path="res://scripts/player_input.gd" id="3_3li8b"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p0vlq"]
+radius = 25.0
+height = 100.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3li8b"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:selected_ship")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdl7e"]
+properties/0/path = NodePath(".:input_dir")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_input", "player_sprite")]
+script = ExtResource("1_p0vlq")
+player_input = NodePath("PlayerInput")
+player_sprite = NodePath("AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_p0vlq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_v6fml")
+animation = &"ship2"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3li8b")
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("3_3li8b")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="PlayerInput"]
+replication_config = SubResource("SceneReplicationConfig_mdl7e")

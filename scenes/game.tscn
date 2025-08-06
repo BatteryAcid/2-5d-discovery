@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct3w4djwnph2p"]
+
+[ext_resource type="Texture2D" uid="uid://dljjagxf6l6sq" path="res://assets/game_bg/moon_sky.png" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://5yf1b20n126x" path="res://scripts/match_handler.gd" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://dsbwhv2vfuonb" path="res://scenes/player.tscn" id="3_lnu2h"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+repeat_size = Vector2(1400, 0)
+autoscroll = Vector2(10, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/Parallax2D"]
+position = Vector2(-87, -7)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("1_uwrxv")
+centered = false
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dsbwhv2vfuonb")
+spawn_path = NodePath("../PlayerSpawnPoint")
+
+[node name="PlayerSpawnPoint" type="Node2D" parent="."]
+
+[node name="MatchHandler" type="Node" parent="." node_paths=PackedStringArray("player_spawn_point")]
+script = ExtResource("2_yqjtg")
+player_scene = ExtResource("3_lnu2h")
+player_spawn_point = NodePath("../PlayerSpawnPoint")

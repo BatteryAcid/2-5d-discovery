@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="bad-mp-test-project"
+config/name="2.5D-discovery"
 run/main_scene="uid://b52nfjxm0f2kj"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/image="uid://c8csmvuyv3e3f"
@@ -28,6 +28,7 @@ BADMP="*res://addons/bad.multiplayer/autoloads/bad_mp.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/always_on_top=true
 
 [editor_plugins]
 

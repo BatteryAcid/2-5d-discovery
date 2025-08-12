@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfcvny5a8whfh"]
+
+[ext_resource type="Script" uid="uid://q2xbtv43kvu2" path="res://scripts/match_handler_25d.gd" id="1_di857"]
+[ext_resource type="PackedScene" uid="uid://c1km2rce3dgjn" path="res://scenes/player-25d.tscn" id="2_dklut"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3dy0j"]
+size = Vector3(10, 0.5, 5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3dy0j"]
+size = Vector2(10, 5)
+
+[node name="Game-25d" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_3dy0j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("PlaneMesh_3dy0j")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://c1km2rce3dgjn")
+spawn_path = NodePath("../SpawnPoint")
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+
+[node name="BADMatchHandler" type="Node" parent="." node_paths=PackedStringArray("player_spawn_point")]
+script = ExtResource("1_di857")
+player_scene = ExtResource("2_dklut")
+player_spawn_point = NodePath("../SpawnPoint")
+metadata/_custom_type_script = "uid://hxohhat02ubx"
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_3dy0j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_3dy0j")

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1km2rce3dgjn"]
+
+[ext_resource type="SpriteFrames" uid="uid://do3k5xk6v2y8e" path="res://assets/ship1.tres" id="1_4cqw2"]
+[ext_resource type="Script" uid="uid://dgiwa2irolljp" path="res://scripts/player-25d.gd" id="1_puue1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_puue1"]
+height = 2.5
+
+[node name="Player-25d" type="CharacterBody3D"]
+script = ExtResource("1_puue1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_puue1")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+billboard = 1
+sprite_frames = ExtResource("1_4cqw2")
+autoplay = "default"
+
+[node name="Camera3D" type="Camera3D" parent="AnimatedSprite3D"]
+transform = Transform3D(-4.29848e-08, 0.181566, -0.983379, 7.93651e-09, 0.983379, 0.181566, 1, 0, -4.37114e-08, -6.16201, 1.01887, -0.0209748)
+current = true
+size = 0.119

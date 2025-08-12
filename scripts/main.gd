@@ -2,7 +2,8 @@ extends Control
 
 func _ready() -> void:
 	BADMP.add_scene(BADSceneManager.MAIN, "res://scenes/main.tscn")
-	BADMP.add_scene(BADSceneManager.GAME, "res://scenes/game.tscn")
+	BADMP.add_scene(BADSceneManager.GAME, "res://scenes/game-25d.tscn")
+	#BADMP.add_scene(BADSceneManager.GAME, "res://scenes/game.tscn")
 	BADMP.add_scene(BADSceneManager.LOADING, "res://scenes/loading.tscn")
 
 func _on_host_pressed() -> void:

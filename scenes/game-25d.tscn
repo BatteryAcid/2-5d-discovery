@@ -1,43 +1,79 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfcvny5a8whfh"]
+[gd_scene load_steps=10 format=3 uid="uid://bfcvny5a8whfh"]
 
 [ext_resource type="Script" uid="uid://q2xbtv43kvu2" path="res://scripts/match_handler_25d.gd" id="1_di857"]
-[ext_resource type="PackedScene" uid="uid://c1km2rce3dgjn" path="res://scenes/player-25d.tscn" id="2_dklut"]
+[ext_resource type="PackedScene" uid="uid://dblsvle0mp0yk" path="res://scenes/player.tscn" id="2_refwx"]
+[ext_resource type="Environment" uid="uid://c57g17lxdvn3x" path="res://assets/night-blue-moon-foggy.tres" id="3_30pij"]
+[ext_resource type="PackedScene" uid="uid://bdcqn1oygn17a" path="res://assets/buildings/building-skyscraper-b.glb" id="3_refwx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3dy0j"]
-size = Vector3(10, 0.5, 5)
+size = Vector3(1000, 1, 1000)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_3dy0j"]
-size = Vector2(10, 5)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_refwx"]
+frequency = 0.0013
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_30pij"]
+noise = SubResource("FastNoiseLite_refwx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_te17b"]
+albedo_color = Color(0.122569, 0.155989, 0.150747, 1)
+metallic_specular = 0.3
+emission = Color(0.0424129, 0.0725862, 0.269036, 1)
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_30pij")
+
+[sub_resource type="BoxMesh" id="BoxMesh_21pod"]
+material = SubResource("StandardMaterial3D_te17b")
+size = Vector3(1000, 0.2, 1000)
 
 [node name="Game-25d" type="Node3D"]
-
-[node name="Area3D" type="Area3D" parent="."]
-visible = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
-shape = SubResource("BoxShape3D_3dy0j")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-mesh = SubResource("PlaneMesh_3dy0j")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://c1km2rce3dgjn")
 spawn_path = NodePath("../SpawnPoint")
 
 [node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.78134)
 
 [node name="BADMatchHandler" type="Node" parent="." node_paths=PackedStringArray("player_spawn_point")]
 script = ExtResource("1_di857")
-player_scene = ExtResource("2_dklut")
+player_scene = ExtResource("2_refwx")
 player_spawn_point = NodePath("../SpawnPoint")
 metadata/_custom_type_script = "uid://hxohhat02ubx"
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_3dy0j")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("PlaneMesh_3dy0j")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_21pod")
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7958, 8.53452, 0)
+use_collision = true
+size = Vector3(1, 20, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("3_30pij")
+
+[node name="building-skyscraper-b2" parent="." instance=ExtResource("3_refwx")]
+transform = Transform3D(5.51, 0, 0, 0, 5.51, 0, 0, 0, 5.51, -3.65817, 0, -1.51702)
+
+[node name="Lighting" type="Node" parent="."]
+
+[node name="moon" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.814116, -0.0303917, 0.579907, 0, 0.99863, 0.052336, -0.580703, -0.0426075, 0.813, 0, 18.7367, 11.4762)
+light_color = Color(0, 0.395833, 0.696899, 1)
+light_energy = 1.206
+shadow_enabled = true
+sky_mode = 1
+
+[node name="GeneralGlow" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 0.0313584, 0.999508, 0, -0.999508, 0.0313584, 0, 84.7746, 0)
+light_energy = 0.175
+light_indirect_energy = 4.753
+light_angular_distance = 13.69
+sky_mode = 1

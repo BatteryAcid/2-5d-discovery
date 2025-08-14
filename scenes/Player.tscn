@@ -1,44 +1,51 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsbwhv2vfuonb"]
+[gd_scene load_steps=9 format=3 uid="uid://dblsvle0mp0yk"]
 
-[ext_resource type="Script" uid="uid://stikko13c0qe" path="res://scripts/player.gd" id="1_p0vlq"]
-[ext_resource type="SpriteFrames" uid="uid://do3k5xk6v2y8e" path="res://assets/ship1.tres" id="2_v6fml"]
-[ext_resource type="Script" uid="uid://dq1r5ceherik2" path="res://scripts/player_input.gd" id="3_3li8b"]
+[ext_resource type="Script" uid="uid://b0ajpoh54g5v8" path="res://scripts/components/player_component.gd" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://25y2utmoo5o8" path="res://scripts/components/input_component.gd" id="2_g2els"]
+[ext_resource type="Script" uid="uid://c03la0wb8w6ha" path="res://scripts/components/move_component.gd" id="3_qhqgy"]
+[ext_resource type="Script" uid="uid://nfvwt8cwlyaf" path="res://scripts/components/move_input_component.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://biftd8vbj0dj6" path="res://scripts/components/mouse_component.gd" id="4_qlg0r"]
+[ext_resource type="Script" uid="uid://do3h1thu8xyws" path="res://scripts/components/model_component.gd" id="5_fjrip"]
+[ext_resource type="PackedScene" uid="uid://fm4kto0cfu81" path="res://scenes/craft_a.tscn" id="6_tuyoq"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p0vlq"]
-radius = 25.0
-height = 100.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3li8b"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:selected_ship")
-properties/1/spawn = true
-properties/1/replication_mode = 2
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_3vyb7")
+metadata/_custom_type_script = "uid://b0ajpoh54g5v8"
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdl7e"]
-properties/0/path = NodePath(".:input_dir")
-properties/0/spawn = true
-properties/0/replication_mode = 1
+[node name="InputComponent" type="Node" parent="."]
+script = ExtResource("2_g2els")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_input", "player_sprite")]
-script = ExtResource("1_p0vlq")
-player_input = NodePath("PlayerInput")
-player_sprite = NodePath("AnimatedSprite2D")
+[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("actor")]
+script = ExtResource("3_qhqgy")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://c03la0wb8w6ha"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_p0vlq")
+[node name="MouseComponent" type="Node" parent="."]
+script = ExtResource("4_qlg0r")
+metadata/_custom_type_script = "uid://biftd8vbj0dj6"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_v6fml")
-animation = &"ship2"
+[node name="ModelComponent" type="Node" parent="." node_paths=PackedStringArray("model")]
+script = ExtResource("5_fjrip")
+model = NodePath("../CraftA")
+metadata/_custom_type_script = "uid://do3h1thu8xyws"
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_3li8b")
+[node name="MoveInputComponent" type="Node" parent="." node_paths=PackedStringArray("input_component", "move_component", "mouse_component", "model_component")]
+script = ExtResource("4_dqkch")
+input_component = NodePath("../InputComponent")
+move_component = NodePath("../MoveComponent")
+mouse_component = NodePath("../MouseComponent")
+model_component = NodePath("../ModelComponent")
+metadata/_custom_type_script = "uid://nfvwt8cwlyaf"
 
-[node name="PlayerInput" type="Node" parent="."]
-script = ExtResource("3_3li8b")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_qlg0r")
 
-[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="PlayerInput"]
-replication_config = SubResource("SceneReplicationConfig_mdl7e")
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, -6)
+current = true
+size = 0.119
+
+[node name="CraftA" parent="." instance=ExtResource("6_tuyoq")]

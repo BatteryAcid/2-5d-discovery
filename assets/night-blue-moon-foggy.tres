@@ -1,0 +1,17 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://c57g17lxdvn3x"]
+
+[ext_resource type="Texture2D" uid="uid://c6jwj1y7cxj6m" path="res://assets/AllSkyFree_Sky_MoonBurst_Equirect.png" id="1_bd8h8"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_30pij"]
+panorama = ExtResource("1_bd8h8")
+
+[sub_resource type="Sky" id="Sky_te17b"]
+sky_material = SubResource("PanoramaSkyMaterial_30pij")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_te17b")
+sky_rotation = Vector3(0, 0.630064, 0)
+fog_enabled = true
+fog_light_energy = 0.16
+fog_sky_affect = 0.85

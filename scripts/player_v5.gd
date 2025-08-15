@@ -15,6 +15,9 @@ extends CharacterBody3D
 # I had to create a scene to ecapulate the ship model and rotate it -180 in order 
 # for this to work out of the box. I'm sure there's another way to fix, but lazy...
 
+@export var player_input: PlayerInput
+@export var camera_3d: Camera3D
+
 @export var max_speed = 20.0
 @export var acceleration = 20.0
 @export var rotation_speed = 1.22 # feels good here
@@ -39,6 +42,16 @@ var roll_input = 0
 var relative_mouse: Vector2
 var last_relative_mouse: Vector2
 
+func _enter_tree():
+	player_input.set_multiplayer_authority(str(name).to_int())
+	
+func _ready():
+	if get_tree().get_multiplayer().get_unique_id() == str(name).to_int():
+		camera_3d.current = true
+		#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	else:
+		camera_3d.current = false
+	
 func _physics_process(delta):
 	if enable_rotation:
 		# Rotate Player
@@ -48,7 +61,7 @@ func _physics_process(delta):
 		
 		# TODO: move the get_actions to PlayerInput (composition)
 		roll_input = lerpf(roll_input,
-			Input.get_action_strength("right") - Input.get_action_strength("left"),
+			player_input.right_str - player_input.left_str,
 			roll_input_response * delta)
 		
 		# Forward motion
@@ -98,9 +111,9 @@ func _physics_process(delta):
 	
 func _move_forward(delta):
 	var forward = ship_body.global_transform.basis.z.normalized()
-	if Input.is_action_pressed("up"):
+	if player_input.up_pressed:
 		speed = min(speed + acceleration * delta, max_speed)
-	elif Input.is_action_pressed("down"):
+	elif player_input.down_pressed:
 		speed = max(speed - acceleration * delta, -max_speed * BACKWARD_RATIO)
 	else:
 		speed -= speed * delta

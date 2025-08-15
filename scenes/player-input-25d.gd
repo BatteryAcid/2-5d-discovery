@@ -1,4 +1,4 @@
-class_name InputComponent
+class_name PlayerInput
 extends Node
 
 var right_str = 0

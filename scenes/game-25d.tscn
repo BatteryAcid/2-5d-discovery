@@ -28,7 +28,7 @@ size = Vector3(1000, 0.2, 1000)
 [node name="Game-25d" type="Node3D"]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://c1km2rce3dgjn")
+_spawnable_scenes = PackedStringArray("uid://dblsvle0mp0yk")
 spawn_path = NodePath("../SpawnPoint")
 
 [node name="SpawnPoint" type="Node3D" parent="."]

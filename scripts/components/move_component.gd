@@ -10,6 +10,9 @@ func _ready():
 	basis = actor.transform.basis
 
 func _physics_process(delta):
+	if not is_multiplayer_authority():
+		return
+
 	actor.transform.basis = basis
 	actor.velocity = velocity
 	

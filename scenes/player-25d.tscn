@@ -1,12 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1km2rce3dgjn"]
+[gd_scene load_steps=7 format=3 uid="uid://c1km2rce3dgjn"]
 
 [ext_resource type="Script" uid="uid://bsbdpthe6bws4" path="res://scripts/player_v5.gd" id="1_puue1"]
 [ext_resource type="PackedScene" uid="uid://fm4kto0cfu81" path="res://scenes/craft_a.tscn" id="3_mib05"]
+[ext_resource type="Script" uid="uid://duwfgfc735scq" path="res://scenes/player-input-25d.gd" id="3_orb72"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_puue1"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_puue1"]
 
-[node name="Player-25d" type="CharacterBody3D"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6cjux"]
+properties/0/path = NodePath("PlayerInput:right_str")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("PlayerInput:left_str")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("PlayerInput:up_pressed")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("PlayerInput:down_pressed")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("PlayerInput:hold")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+
+[node name="Player-25d" type="CharacterBody3D" node_paths=PackedStringArray("player_input", "camera_3d")]
 script = ExtResource("1_puue1")
+player_input = NodePath("PlayerInput")
+camera_3d = NodePath("Camera3D2")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_puue1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -17,3 +48,10 @@ shape = SubResource("CapsuleShape3D_puue1")
 [node name="Camera3D2" type="Camera3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2, -6)
 current = true
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("3_orb72")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="PlayerInput"]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_6cjux")

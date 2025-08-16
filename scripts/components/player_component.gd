@@ -1,6 +1,7 @@
 class_name PlayerComponent
 extends CharacterBody3D
 
+# TODO: should these be onreadys or exports?
 @export var rotate_input_component: RotateInputComponent
 @export var move_input_component: MoveInputComponent
 @export var model_component: ModelComponent

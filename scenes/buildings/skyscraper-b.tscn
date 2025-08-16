@@ -1,0 +1,105 @@
+[gd_scene load_steps=8 format=3 uid="uid://dv6iqi4ukwh58"]
+
+[ext_resource type="Script" uid="uid://bs6fmlwbn4fak" path="res://scripts/environment/skyscraper.gd" id="1_5wv11"]
+[ext_resource type="PackedScene" uid="uid://bdcqn1oygn17a" path="res://assets/buildings/building-skyscraper-b.glb" id="1_7lvry"]
+[ext_resource type="Material" uid="uid://bx5v85e5rudxy" path="res://assets/buildings/materials/billboard_mat_1.tres" id="3_oauii"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7lvry"]
+size = Vector3(1.3, 4.46936, 1.3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2l6pw"]
+material = ExtResource("3_oauii")
+size = Vector2(0.76, 1.56)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_oauii"]
+material = ExtResource("3_oauii")
+size = Vector2(0.76, 0.64)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_o7f62"]
+material = ExtResource("3_oauii")
+size = Vector2(0.76, 0.3)
+
+[node name="Skyscraper-b" type="Node3D" node_paths=PackedStringArray("internal_light")]
+script = ExtResource("1_5wv11")
+internal_light = NodePath("LightRoot/OmniLight3D")
+light_color = Color(0.101961, 0.698039, 0.6, 1)
+
+[node name="building-skyscraper-b2" parent="." instance=ExtResource("1_7lvry")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23, 0)
+shape = SubResource("BoxShape3D_7lvry")
+
+[node name="LightRoot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.51416, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightRoot"]
+light_color = Color(0.101008, 0.697903, 0.599408, 1)
+light_energy = 3.733
+omni_range = 16.46
+omni_attenuation = 0.174
+
+[node name="Side1" type="Node3D" parent="."]
+
+[node name="WindowLights" type="MeshInstance3D" parent="Side1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.73755, 0.580932)
+mesh = SubResource("PlaneMesh_2l6pw")
+skeleton = NodePath("../..")
+
+[node name="WindowLights2" type="MeshInstance3D" parent="Side1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.53719, 0.580932)
+mesh = SubResource("PlaneMesh_oauii")
+skeleton = NodePath("../..")
+
+[node name="Side2" type="Node3D" parent="."]
+
+[node name="WindowLights3" type="MeshInstance3D" parent="Side2"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0.599952, 4.07755, 0.00786263)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights4" type="MeshInstance3D" parent="Side2"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0.599952, 3.00748, 0.00786263)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights5" type="MeshInstance3D" parent="Side2"]
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0.599952, 1.6461, 0.00786263)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="Side3" type="Node3D" parent="."]
+
+[node name="WindowLights3" type="MeshInstance3D" parent="Side3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0202963, 3.36801, -0.59351)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights4" type="MeshInstance3D" parent="Side3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0202963, 3.00748, -0.59351)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights5" type="MeshInstance3D" parent="Side3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0202963, 1.96603, -0.59351)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="Side4" type="Node3D" parent="."]
+
+[node name="WindowLights3" type="MeshInstance3D" parent="Side4"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.595199, 4.08607, 0.00037396)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights4" type="MeshInstance3D" parent="Side4"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.595199, 3.00748, 0.00037396)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")
+
+[node name="WindowLights5" type="MeshInstance3D" parent="Side4"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.595199, 2.33091, 0.00037396)
+mesh = SubResource("PlaneMesh_o7f62")
+skeleton = NodePath("../..")

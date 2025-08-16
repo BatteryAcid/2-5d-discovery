@@ -9,8 +9,23 @@ panorama = ExtResource("1_bd8h8")
 sky_material = SubResource("PanoramaSkyMaterial_30pij")
 
 [resource]
+background_mode = 2
 sky = SubResource("Sky_te17b")
 sky_rotation = Vector3(0, 0.630064, 0)
+sdfgi_energy = 1.73
+glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/4 = 0.5
+glow_levels/5 = 0.2
+glow_blend_mode = 1
 fog_enabled = true
-fog_light_energy = 0.16
-fog_sky_affect = 0.85
+fog_mode = 1
+fog_light_energy = 0.25
+fog_density = 0.7578
+fog_aerial_perspective = 0.403
+fog_sky_affect = 0.78
+fog_depth_begin = 5.0
+fog_depth_end = 50.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0359
+volumetric_fog_albedo = Color(0.545098, 0.952941, 1, 1)

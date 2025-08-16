@@ -59,9 +59,9 @@ metadata/_custom_type_script = "uid://408omd47lhir"
 
 [sub_resource type="Resource" id="Resource_smehm"]
 script = ExtResource("2_smehm")
-max_speed = 20.0
+max_speed = 10.0
 speed = 0
-acceleration = 20.0
+acceleration = 10.0
 backward_ratio = 0.5
 metadata/_custom_type_script = "uid://cs65yu2ufinxn"
 

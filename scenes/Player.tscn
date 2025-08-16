@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dblsvle0mp0yk"]
+[gd_scene load_steps=23 format=3 uid="uid://dblsvle0mp0yk"]
 
 [ext_resource type="Script" uid="uid://b0ajpoh54g5v8" path="res://scripts/components/player_component.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://25y2utmoo5o8" path="res://scripts/components/input_component.gd" id="2_g2els"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://d3i61cuw6vycg" path="res://scripts/components/attributes/model_attributes.gd" id="6_ur7pv"]
 [ext_resource type="Script" uid="uid://408omd47lhir" path="res://scripts/components/attributes/rotate_attributes.gd" id="8_d2wvv"]
 [ext_resource type="Script" uid="uid://br1kbpukgfeln" path="res://scripts/components/rotate_controller.gd" id="9_y4r1p"]
+[ext_resource type="Script" uid="uid://d325bix7mhx7p" path="res://scripts/environment/booster_1.gd" id="12_3v2ag"]
+[ext_resource type="Material" uid="uid://oilc0fuvrjei" path="res://assets/crafts/materials/booster_1.tres" id="12_jej6c"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v2ag"]
 properties/0/path = NodePath(".:position")
@@ -22,6 +24,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("ModelComponent:model:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:velocity")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2wvv"]
 properties/0/path = NodePath("InputComponent:right_str")
@@ -69,6 +74,14 @@ speed = 0
 metadata/_custom_type_script = "uid://cs65yu2ufinxn"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jej6c"]
+resource_local_to_scene = true
+size = Vector2(0.1, 0.3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f1ej7"]
+resource_local_to_scene = true
+size = Vector2(0.1, 0.3)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model_component", "input_component", "mouse_component", "camera_3d", "spring_arm_3d")]
 script = ExtResource("1_3vyb7")
@@ -131,6 +144,36 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 shape = SubResource("CapsuleShape3D_qlg0r")
 
 [node name="CraftA" parent="." instance=ExtResource("6_tuyoq")]
+
+[node name="Boosters" type="Node3D" parent="CraftA"]
+
+[node name="LeftBooster" type="MeshInstance3D" parent="CraftA/Boosters" node_paths=PackedStringArray("move_component", "boost_light")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.350359, 0.248019, -1.01512)
+mesh = SubResource("PlaneMesh_jej6c")
+skeleton = NodePath("../../..")
+script = ExtResource("12_3v2ag")
+move_component = NodePath("../../../MoveComponent")
+boost_material = ExtResource("12_jej6c")
+boost_light = NodePath("OmniLight3D")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CraftA/Boosters/LeftBooster"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00319833, 0.0715016, 0)
+light_color = Color(1, 0.286275, 0.0666667, 1)
+omni_range = 3.0
+
+[node name="RightBooster" type="MeshInstance3D" parent="CraftA/Boosters" node_paths=PackedStringArray("move_component", "boost_light")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.348656, 0.248019, -1.01512)
+mesh = SubResource("PlaneMesh_f1ej7")
+skeleton = NodePath("../../..")
+script = ExtResource("12_3v2ag")
+move_component = NodePath("../../../MoveComponent")
+boost_material = ExtResource("12_jej6c")
+boost_light = NodePath("OmniLight3D")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CraftA/Boosters/RightBooster"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016863, 0.0715016, 0)
+light_color = Color(1, 0.286275, 0.0666667, 1)
+omni_range = 3.0
 
 [node name="SpringArm3D" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)

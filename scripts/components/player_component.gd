@@ -1,12 +1,12 @@
 class_name PlayerComponent
 extends CharacterBody3D
 
-# TODO: should these be onreadys or exports?
-@export var rotate_input_component: RotateInputComponent
-@export var move_input_component: MoveInputComponent
+@export_group("Player Components")
 @export var model_component: ModelComponent
 @export var input_component: InputComponent
 @export var mouse_component: MouseComponent
+
+@export_group("Camera")
 @export var camera_3d: Camera3D
 @export var spring_arm_3d: SpringArm3D
 
@@ -29,17 +29,6 @@ func _ready():
 	# - consider grouping them together		
 	# NOTE: for non-lag compensated synchronizer usage, turn off public visibility
 	# and manually set the visibility to only the server/host peer. The players
-	# input doesn't need to be broadcast to other peers. (Unless you're using lock-step lag comp)
+	# input doesn't need to be broadcast to other peers, unless you're are using it for something.
 	var ms = input_component.find_child("InputSynchronizer") as MultiplayerSynchronizer
 	ms.set_visibility_for(1, true)
-
-func _physics_process(delta):
-	if not is_multiplayer_authority():
-		return
-		
-	# TODO: is apply_input a good name? DO I need to use the same name?
-	rotate_input_component.apply_input(delta)
-	move_input_component.apply_input(delta)
-	
-	if not input_component.hold:
-		model_component.apply_updates()

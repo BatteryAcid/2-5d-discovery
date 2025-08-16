@@ -1,18 +1,28 @@
 class_name ModelComponent
 extends Node
 
-@export var model: Node3D
-@export var mouse_component: MouseComponent
+# NOTE: ModelAttributes is marked Local to Scene so that if values differ between
+# peers, they won't be overridded by authority.
+@export_group("Model Attributes")
 @export var model_attributes: ModelAttributes
 
-func _enter_tree():
-	# Critical to make sure attribute values aren't shared between peer
-	model_attributes.resource_local_to_scene = true
+@export_group("Model Components")
+@export var mouse_component: MouseComponent
+@export var input_component: InputComponent
+
+@export_group("Model")
+@export var model: Node3D
 
 func model_forward():
 	return model.global_transform.basis.z.normalized()
 
-func apply_updates():
+func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+		
+	if input_component.hold:
+		return
+		
 	var relative_mouse = mouse_component.relative_mouse
 	
 	var ship_basis = Basis.IDENTITY

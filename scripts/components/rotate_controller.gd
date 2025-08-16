@@ -1,6 +1,8 @@
-class_name RotateInputComponent
+class_name RotateController
 extends Node
 
+# NOTE: RotateAttributes is marked Local to Scene so that if values differ between
+# peers, they won't be overridded by authority.
 @export_group("Rotate Attributes")
 @export var rotate_attributes: RotateAttributes
 
@@ -13,12 +15,10 @@ var roll_input: float = 0
 var relative_mouse: Vector2
 var last_relative_mouse: Vector2
 
-func _enter_tree():
-	# TODO: is this actually required?
-	# Critical to make sure attribute values aren't shared between peer
-	rotate_attributes.resource_local_to_scene = true
-	
-func apply_input(delta):
+func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+		
 	if input_component.hold:
 		# TODO: this is in the right direction:
 		# This does move the spin down to a stop

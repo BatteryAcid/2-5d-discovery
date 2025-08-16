@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://25y2utmoo5o8" path="res://scripts/components/input_component.gd" id="2_g2els"]
 [ext_resource type="Script" uid="uid://cs65yu2ufinxn" path="res://scripts/components/attributes/move_attributes.gd" id="2_smehm"]
 [ext_resource type="Script" uid="uid://c03la0wb8w6ha" path="res://scripts/components/move_component.gd" id="3_qhqgy"]
-[ext_resource type="Script" uid="uid://nfvwt8cwlyaf" path="res://scripts/components/move_input_component.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://nfvwt8cwlyaf" path="res://scripts/components/move_controller.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://biftd8vbj0dj6" path="res://scripts/components/mouse_component.gd" id="4_qlg0r"]
 [ext_resource type="Script" uid="uid://do3h1thu8xyws" path="res://scripts/components/model_component.gd" id="5_fjrip"]
 [ext_resource type="PackedScene" uid="uid://fm4kto0cfu81" path="res://scenes/craft_a.tscn" id="6_tuyoq"]
 [ext_resource type="Script" uid="uid://d3i61cuw6vycg" path="res://scripts/components/attributes/model_attributes.gd" id="6_ur7pv"]
 [ext_resource type="Script" uid="uid://408omd47lhir" path="res://scripts/components/attributes/rotate_attributes.gd" id="8_d2wvv"]
-[ext_resource type="Script" uid="uid://br1kbpukgfeln" path="res://scripts/components/rotate_input_component.gd" id="9_y4r1p"]
+[ext_resource type="Script" uid="uid://br1kbpukgfeln" path="res://scripts/components/rotate_controller.gd" id="9_y4r1p"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3v2ag"]
 properties/0/path = NodePath(".:position")
@@ -46,11 +46,13 @@ properties/0/spawn = true
 properties/0/replication_mode = 1
 
 [sub_resource type="Resource" id="Resource_y4r1p"]
+resource_local_to_scene = true
 script = ExtResource("6_ur7pv")
 rotation_speed = 1.22
 metadata/_custom_type_script = "uid://d3i61cuw6vycg"
 
-[sub_resource type="Resource" id="Resource_3v2ag"]
+[sub_resource type="Resource" id="Resource_d2wvv"]
+resource_local_to_scene = true
 script = ExtResource("8_d2wvv")
 turn_input_response = 8.0
 roll_input_response = 8.0
@@ -58,19 +60,18 @@ rotation_speed = 1.22
 metadata/_custom_type_script = "uid://408omd47lhir"
 
 [sub_resource type="Resource" id="Resource_smehm"]
+resource_local_to_scene = true
 script = ExtResource("2_smehm")
 max_speed = 10.0
-speed = 0
 acceleration = 10.0
 backward_ratio = 0.5
+speed = 0
 metadata/_custom_type_script = "uid://cs65yu2ufinxn"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qlg0r"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("rotate_input_component", "move_input_component", "model_component", "input_component", "mouse_component", "camera_3d", "spring_arm_3d")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("model_component", "input_component", "mouse_component", "camera_3d", "spring_arm_3d")]
 script = ExtResource("1_3vyb7")
-rotate_input_component = NodePath("RotateInputComponent")
-move_input_component = NodePath("MoveInputComponent")
 model_component = NodePath("ModelComponent")
 input_component = NodePath("InputComponent")
 mouse_component = NodePath("MouseComponent")
@@ -102,27 +103,27 @@ script = ExtResource("3_qhqgy")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://c03la0wb8w6ha"
 
-[node name="ModelComponent" type="Node" parent="." node_paths=PackedStringArray("model", "mouse_component")]
+[node name="ModelComponent" type="Node" parent="." node_paths=PackedStringArray("mouse_component", "input_component", "model")]
 script = ExtResource("5_fjrip")
-model = NodePath("../CraftA")
-mouse_component = NodePath("../MouseComponent")
 model_attributes = SubResource("Resource_y4r1p")
+mouse_component = NodePath("../MouseComponent")
+input_component = NodePath("../InputComponent")
+model = NodePath("../CraftA")
 metadata/_custom_type_script = "uid://do3h1thu8xyws"
 
-[node name="RotateInputComponent" type="Node" parent="." node_paths=PackedStringArray("input_component", "move_component", "mouse_component")]
+[node name="RotateController" type="Node" parent="." node_paths=PackedStringArray("input_component", "move_component", "mouse_component")]
 script = ExtResource("9_y4r1p")
-rotate_attributes = SubResource("Resource_3v2ag")
+rotate_attributes = SubResource("Resource_d2wvv")
 input_component = NodePath("../InputComponent")
 move_component = NodePath("../MoveComponent")
 mouse_component = NodePath("../MouseComponent")
 metadata/_custom_type_script = "uid://br1kbpukgfeln"
 
-[node name="MoveInputComponent" type="Node" parent="." node_paths=PackedStringArray("input_component", "move_component", "model_component")]
+[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("input_component", "move_component")]
 script = ExtResource("4_dqkch")
 move_attributes = SubResource("Resource_smehm")
 input_component = NodePath("../InputComponent")
 move_component = NodePath("../MoveComponent")
-model_component = NodePath("../ModelComponent")
 metadata/_custom_type_script = "uid://nfvwt8cwlyaf"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
